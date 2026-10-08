@@ -50,7 +50,7 @@
 - Dynamic service discovery, Load balancing, TLS termination, HTTP/2 and gRPC proxies
 - Circuit breakers, Health checks, Staged rollouts with %-based traffic split, Fault injection, Rich metrics
 
-두 모드의 상세 비교는 [03-dataplane-modes.md](./03-dataplane-modes.md)에 있다.
+두 모드의 상세 비교는 [03-dataplane-modes.md](./03-dataplane-modes.md)에, CNI chaining·Pod 생성·패킷 경로 같은 내부 동작은 [06-internals.md](./06-internals.md)에 있다.
 
 ### xDS: 설정이 프록시에 전달되는 방식
 
@@ -101,7 +101,7 @@ Envoy는 정적 설정 파일 대신 **xDS API**(gRPC 스트림)로 설정을 �
 5. istio-agent는 인증서 만료를 감시하다가 주기적으로 위 과정을 반복해 교체(rotation)한다.
 
 - 출처: [istio.io, Security concepts](https://istio.io/latest/docs/concepts/security/)
-- 기본 인증서 수명은 24시간이라는 설명이 많지만 공식 개념 문서에는 명시가 없다(**확인 필요**).
+- 기본 인증서 수명은 공식 개념 문서에 명시가 없다. 다만 2026-10-08 kind + Istio 1.31.1에서 `istioctl proxy-config secret`으로 확인해 보니 워크로드 인증서는 **24시간**(NOT BEFORE를 2분 앞당겨 발급), 자체 서명 root CA는 **10년**이었다([06-internals.md](./06-internals.md#2-1-sidecar-모드)).
 - Ambient 모드에서는 ztunnel이 자기 노드에 있는 워크로드의 인증서를 대신 받아 관리한다([03-dataplane-modes.md](./03-dataplane-modes.md)).
 
 ### mTLS 모드와 인가 평가 순서
