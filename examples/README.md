@@ -84,6 +84,8 @@ kubectl exec deploy/curl -- curl -s -o /dev/null -w "%{http_code}\n" -X DELETE h
 istioctl analyze --use-kube=false sidecar/*.yaml
 ```
 
+검증 기록(2026-10-08): istioctl 1.31.1의 `istioctl validate -f sidecar/ -f ambient/`와 Bookinfo 샘플을 함께 넣은 `istioctl analyze --use-kube=false`가 모두 통과했다("No validation issues found"). 실제 클러스터 실행 결과(응답 코드, 카나리 비율)는 검증하지 않았다(**확인 필요**).
+
 ## 정리
 
 ```bash
