@@ -1,0 +1,17 @@
+# [L4] ztunnel이 집행하는 정책: 출처 ID(principal)만 보고 허용 여부를 결정한다.
+# HTTP 메서드·경로 조건은 쓸 수 없다(쓰려면 waypoint 필요).
+apiVersion: security.istio.io/v1
+kind: AuthorizationPolicy
+metadata:
+  name: productpage-ztunnel
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      app: productpage
+  action: ALLOW
+  rules:
+  - from:
+    - source:
+        principals:
+        - cluster.local/ns/default/sa/bookinfo-gateway-istio

@@ -1,0 +1,15 @@
+# default 네임스페이스용 waypoint(L7 Envoy). `istioctl waypoint apply -n default`와 동등하다.
+# 적용 후 네임스페이스에 istio.io/use-waypoint=waypoint 라벨을 붙여야 트래픽이 이 waypoint를 지난다.
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: waypoint
+  namespace: default
+  labels:
+    istio.io/waypoint-for: service
+spec:
+  gatewayClassName: istio-waypoint
+  listeners:
+  - name: mesh
+    port: 15008
+    protocol: HBONE

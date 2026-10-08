@@ -1,0 +1,9 @@
+# default 네임스페이스의 모든 워크로드가 mTLS만 받도록 강제한다.
+apiVersion: security.istio.io/v1
+kind: PeerAuthentication
+metadata:
+  name: default
+  namespace: default
+spec:
+  mtls:
+    mode: STRICT

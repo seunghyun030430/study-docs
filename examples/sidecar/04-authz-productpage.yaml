@@ -1,0 +1,20 @@
+# productpage는 ingress gateway(Gateway API 자동 생성) 서비스 어카운트의 GET 요청만 허용한다.
+# ALLOW 정책이 생기면 매칭되지 않는 요청은 거부된다.
+apiVersion: security.istio.io/v1
+kind: AuthorizationPolicy
+metadata:
+  name: productpage-allow-gateway
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      app: productpage
+  action: ALLOW
+  rules:
+  - from:
+    - source:
+        principals:
+        - cluster.local/ns/default/sa/bookinfo-gateway-istio
+    to:
+    - operation:
+        methods: ["GET"]
