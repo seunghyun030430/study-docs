@@ -121,8 +121,10 @@ spec:
 ```bash
 kubectl apply -f examples/sidecar/02-destination-rule-reviews.yaml
 kubectl apply -f examples/sidecar/03-virtual-service-reviews-canary.yaml
-# 확인: 100번 중 약 10번 reviews-v2
-kubectl exec deploy/curl -- sh -c 'for i in $(seq 1 100); do curl -s http://productpage:9080/productpage | grep -o "reviews-v[0-9]-[a-z0-9]*"; done' | sort | uniq -c
+# 확인: 200번 중 약 20번 reviews-v2 (페이지에 Pod 이름이 두 번 나오므로 요청당 첫 매치만 센다)
+kubectl exec deploy/curl -- sh -c 'for i in $(seq 1 200); do curl -s http://productpage:9080/productpage | grep -o "reviews-v[0-9]" | head -n1; done' | sort | uniq -c
+# 실제 Envoy에 내려간 라우트(timeout, retryPolicy, weightedClusters) 확인
+istioctl proxy-config routes deploy/productpage-v1 --name 9080 -o json
 ```
 
 | 기본값 | 내용 | 출처 |
@@ -161,6 +163,7 @@ spec:
 
 ```bash
 # 이제 curl Pod에서 productpage 직접 호출 → 403 (RBAC: access denied)
+# 적용 직후 몇 초간은 이전 설정으로 200이 나올 수 있다(설정 전파 지연)
 kubectl exec deploy/curl -- curl -s -o /dev/null -w "%{http_code}\n" http://productpage:9080/productpage
 ```
 
@@ -265,7 +268,8 @@ kubectl apply -f examples/ambient/04-httproute-reviews-canary.yaml
 kubectl exec deploy/curl -- curl -s -o /dev/null -w "%{http_code}\n" -X DELETE http://productpage:9080/productpage   # 403
 ```
 
-- 이때 L4 정책(`productpage-ztunnel`)도 유지돼 있다면 ztunnel 입장에서 productpage로 들어오는 출처는 **waypoint**다. 따라서 waypoint 서비스 어카운트(`cluster.local/ns/default/sa/waypoint`)도 L4 정책에서 허용해야 한다. 공식 튜토리얼도 이 순서로 L4 정책을 갱신한다([Enforce authorization policies](https://istio.io/latest/docs/ambient/getting-started/enforce-auth-policies/)).
+- **ingress 트래픽은 기본적으로 waypoint를 거치지 않는다.** 그래서 gateway를 거친 요청에는 위 L7 정책이 적용되지 않는다. 적용하려면 대상 Service에 `istio.io/ingress-use-waypoint=true` 라벨을 붙인다(istiod feature flag도 필요하다. 세부는 [Configure waypoint proxies](https://istio.io/latest/docs/ambient/usage/waypoint/) 참고).
+- 이때 L4 정책(`productpage-ztunnel`)도 유지돼 있다면 ztunnel 입장에서 productpage로 들어오는 출처는 **waypoint**다. 따라서 waypoint 서비스 어카운트(`cluster.local/ns/default/sa/waypoint`)도 L4 정책에서 허용해야 한다. 허용하지 않으면 curl → productpage가 503이 된다(실행 검증으로 확인). 공식 튜토리얼도 이 순서로 L4 정책을 갱신한다([Enforce authorization policies](https://istio.io/latest/docs/ambient/getting-started/enforce-auth-policies/)).
 
 ## 관측성
 
@@ -290,7 +294,8 @@ istioctl dashboard kiali
 
 | 명령 | 용도 |
 | --- | --- |
-| `istioctl analyze` | 클러스터 설정 정적 분석(오타, 없는 host 참조 등) |
+| `istioctl analyze` | 클러스터 설정 정적 분석(오타, 없는 host 참조 등). 이 문서 절차에서는 `service-type` 어노테이션이 자동 생성 리소스로 전파돼 IST0107 경고가 나오지만 동작에는 영향이 없다 |
+| `istioctl x authz check <pod>` | 해당 Pod에 적용된 AuthorizationPolicy 목록 |
 | `istioctl analyze --use-kube=false examples/sidecar/*.yaml` | 클러스터 없이 로컬 YAML 분석 |
 | `istioctl proxy-status` | 각 Envoy의 xDS 동기화 상태 |
 | `istioctl proxy-config routes\|clusters\|listeners <pod>` | 특정 sidecar·waypoint에 실제로 내려간 설정 |
@@ -321,4 +326,4 @@ kind delete cluster --name istio-toy
 - https://github.com/istio/istio/tree/release-1.31/samples
 
 ---
-*조사 기준일: 2026-10-08. Istio 1.31.1, Gateway API v1.6.0 기준. 명령은 공식 Getting Started를 바탕으로 했다. `examples/`의 YAML은 istioctl 1.31.1의 `validate`와 `analyze --use-kube=false`(Bookinfo 샘플 포함)를 통과했고, 문서에 나온 istioctl 하위 명령·플래그도 같은 바이너리로 확인했다. 실제 kind 클러스터 실행 검증은 수행하지 않았다(확인 필요).*
+*조사 기준일: 2026-10-08. Istio 1.31.1, Gateway API v1.6.0 기준. 명령은 공식 Getting Started를 바탕으로 했다. `examples/`의 YAML은 istioctl 1.31.1의 `validate`와 `analyze --use-kube=false`(Bookinfo 샘플 포함)를 통과했고, 문서에 나온 istioctl 하위 명령·플래그도 같은 바이너리로 확인했다. 같은 날 kind v0.33.0(Kubernetes v1.37.0) 클러스터에서 A·B 절차를 실제로 실행해 응답 코드와 카나리 비율을 확인했다(결과는 [examples/README.md](./examples/README.md#검증-기록-2026-10-08)).*
