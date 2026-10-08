@@ -98,6 +98,8 @@
 - L7 정책은 `selector` 대신 `targetRefs`로 Service나 Gateway(waypoint)를 가리킨다. 예시는 [04-usage.md](./04-usage.md)에 있다.
 - 1.31 신기능으로 primary/canary waypoint를 가중치로 나누는 "weighted waypoint canaries"(`istio.io/use-waypoint-canary` 라벨)가 추가되었다([Announcing 1.31](https://istio.io/latest/news/releases/1.31.x/announcing-1.31/)).
 
+> 실제 iptables/nftables 규칙, ztunnel이 Pod netns에 여는 소켓, HBONE 로그, UID 1337 우회 실험은 [06-internals.md](./06-internals.md)에 있다.
+
 ## 어떤 모드를 고를까
 
 | 상황 | 추천 |
