@@ -49,7 +49,7 @@
 ### Sidecar 시작·종료 순서
 
 - 과거에는 앱이 Envoy보다 먼저 떠서 시작 직후 네트워크 호출이 실패하거나, Job이 끝나도 sidecar가 남아 Pod가 종료되지 않는 문제가 흔했다. 대응책으로 `holdApplicationUntilProxyStarts` 옵션이 쓰였다.
-- Istio 1.27부터 `ENABLE_NATIVE_SIDECARS`가 기본 `true`다. 자격이 되는 Pod에는 Kubernetes **native sidecar**(`restartPolicy: Always`인 initContainer)로 주입된다([1.27 change notes](https://istio.io/latest/news/releases/1.27.x/announcing-1.27/change-notes/), [Native sidecars blog](https://istio.io/latest/blog/2023/native-sidecars/)). native sidecar는 프록시가 준비된 뒤 앱 컨테이너를 시작하고, 프록시가 실행 중이어도 Pod 종료를 막지 않는다. 그래서 위 두 문제가 크게 줄었다.
+- Istio 1.27부터 `ENABLE_NATIVE_SIDECARS`가 기본 `true`다. 자격이 되는 Pod에는 Kubernetes **native sidecar**(`restartPolicy: Always`인 initContainer)로 주입된다([1.27 change notes](https://istio.io/latest/news/releases/1.27.x/announcing-1.27/change-notes/), [Native sidecars blog](https://istio.io/latest/blog/2023/native-sidecars/)). native sidecar는 프록시가 준비된 뒤 앱 컨테이너를 시작하고, 프록시가 실행 중이어도 Pod 종료를 막지 않는다. 그래서 위 두 문제가 크게 줄었다. 2026-10-08 kind(Kubernetes v1.37.0) + Istio 1.31.1 실행에서도 `istio-proxy`가 `restartPolicy: Always`인 initContainer로 주입된 것을 확인했다.
 - 워크로드별 opt-out 어노테이션 이름이 문서마다 다르게 적혀 있다(change notes: `sidecar.istio.io/native-side`, annotation 레퍼런스: `sidecar.istio.io/nativeSidecar`). **확인 필요**: [Resource Annotations](https://istio.io/latest/docs/reference/config/annotations/).
 
 ## 보안 정책의 함정
@@ -61,6 +61,8 @@
 | DENY 우선 | 평가 순서는 `CUSTOM` → `DENY` → `ALLOW`. 넓은 DENY 하나가 모든 ALLOW를 무력화한다 |
 | Ambient L4/L7 혼동 | ztunnel은 HTTP를 파싱하지 않는다. `selector` 기반 정책에 `methods`·`paths` 같은 L7 조건을 넣으면 ztunnel이 집행할 수 없다. L7 정책은 waypoint에 `targetRefs`로 붙인다 |
 | Ambient waypoint 경유 시 출처 변경 | waypoint를 거치면 목적지 ztunnel이 보는 출처가 waypoint ID가 된다. 기존 L4 정책에 waypoint 서비스 어카운트를 추가하지 않으면 트래픽이 막힌다([Enforce authorization policies](https://istio.io/latest/docs/ambient/getting-started/enforce-auth-policies/)) |
+| Ambient ingress는 waypoint 우회 | ingress gateway에서 들어온 트래픽은 기본적으로 목적지 Service의 waypoint를 거치지 않는다. 그래서 waypoint에 붙인 L7 정책이 gateway 경유 요청에는 적용되지 않는다. 필요하면 Service에 `istio.io/ingress-use-waypoint=true`를 붙인다([Configure waypoint proxies](https://istio.io/latest/docs/ambient/usage/waypoint/), 2026-10-08 kind 실행으로 확인) |
+| 정책 적용 직후의 공백 | 설정은 이벤추얼 컨시스턴시로 전파된다. 실행 검증에서도 AuthorizationPolicy를 적용한 뒤 약 5초 동안은 이전 동작(200)이 유지됐다. 적용 직후 결과로 성공·실패를 판단하지 않는다 |
 | egress 기본 허용 | 기본 outbound 정책(`ALLOW_ANY`)에서는 메시 밖으로 나가는 트래픽을 막지 않는다. 통제가 필요하면 `REGISTRY_ONLY`와 `ServiceEntry`, egress gateway를 조합한다([Accessing External Services](https://istio.io/latest/docs/tasks/traffic-management/egress/egress-control/)) |
 
 - 출처: [Security concepts](https://istio.io/latest/docs/concepts/security/)
