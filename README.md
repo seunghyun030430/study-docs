@@ -33,6 +33,7 @@ Istio 서비스 메시를 입문자 관점에서 정리한 문서 모음이다. 
 | [03-dataplane-modes.md](./03-dataplane-modes.md) | Sidecar vs Ambient: ztunnel, HBONE, waypoint, 모드 선택 기준 |
 | [04-usage.md](./04-usage.md) | 사용법: kind 설치, 두 모드 실습, 카나리, mTLS·인가, 관측성, 디버깅 명령 |
 | [05-issues.md](./05-issues.md) | 이슈·한계: 운영 비용, 업그레이드, 트래픽·보안 함정, 앱 요구사항, 안티패턴 |
+| [06-internals.md](./06-internals.md) | 내부 동작: CNI chaining, Pod 생성 시 주입·규칙 설치, Pod 간 패킷 경로(sidecar/ambient/waypoint), 실무 Q&A(카나리 불균형, UID 1337 우회, ztunnel 장애 반경 등) |
 | [examples/](./examples/README.md) | 실습 YAML(sidecar/, ambient/)과 실행 순서 |
 
 ## 출처 (1차)
