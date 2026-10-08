@@ -321,4 +321,4 @@ kind delete cluster --name istio-toy
 - https://github.com/istio/istio/tree/release-1.31/samples
 
 ---
-*조사 기준일: 2026-10-08. Istio 1.31.1, Gateway API v1.6.0 기준. 명령은 공식 Getting Started를 바탕으로 하며, 실행 검증 결과는 README의 검증 메모를 참고.*
+*조사 기준일: 2026-10-08. Istio 1.31.1, Gateway API v1.6.0 기준. 명령은 공식 Getting Started를 바탕으로 했다. `examples/`의 YAML은 istioctl 1.31.1의 `validate`와 `analyze --use-kube=false`(Bookinfo 샘플 포함)를 통과했고, 문서에 나온 istioctl 하위 명령·플래그도 같은 바이너리로 확인했다. 실제 kind 클러스터 실행 검증은 수행하지 않았다(확인 필요).*
