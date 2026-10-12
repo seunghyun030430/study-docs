@@ -9,7 +9,7 @@
 | 실행 위치 | 노드 내부(SSM Agent가 실행) | Systems Manager 서비스(필요 시 `aws:runCommand`로 노드에 위임) |
 | 문서 타입 | Command(schema 2.2 권장) | Automation(schema 0.3) |
 | 대표 문서 | `AWS-RunShellScript`, `AWS-RunPowerShellScript` | `AWS-RestartEC2Instance`, `AWS-StopEC2Instance`, `AWS-UpdateLinuxAmi` |
-| 단계 | 문서 내 plugin(step) 순차 실행 | 23개 action(`aws:executeAwsApi`, `aws:branch`, `aws:approve` 등)으로 분기·대기·승인 |
+| 단계 | 문서 내 plugin(step) 순차 실행 | action 23종(개요 페이지는 "20 distinct action types", actions 레퍼런스 목록은 23개)(`aws:executeAwsApi`, `aws:branch`, `aws:approve` 등)으로 분기·대기·승인 |
 | 권한 | 호출자의 `ssm:SendCommand` + 노드의 instance profile | 호출자 권한 또는 **assume role**(`AutomationAssumeRole`) |
 | 요금 | EC2 무료, 하이브리드 호출당 $0.002(2026-09-30~) | step당 $0.002, `executeScript`는 초당 $0.00003 추가 |
 | 트리거 | 콘솔/CLI, EventBridge, State Manager, Maintenance Windows | 콘솔/CLI, EventBridge, Maintenance Windows, State Manager |
@@ -49,7 +49,7 @@
 
 | 상태 | 의미 / 주의 |
 | --- | --- |
-| `Success` | 종료 코드 0. 스크립트는 기본적으로 **마지막 명령의 종료 코드**를 반환하므로 중간 실패가 묻힐 수 있다 |
+| `Success` | 단일 대상이면 종료 코드 0. 여러 대상이면 **실패 수가 max-errors를 넘지 않았다**는 뜻이고, 일부가 타임아웃이어도 1개 이상 성공하면 `Success`가 될 수 있다. 태그에 일치하는 노드가 없을 때도 invocation 상태는 `Success`로 나올 수 있다. 스크립트는 기본적으로 **마지막 명령의 종료 코드**를 반환하므로 중간 실패가 묻힐 수 있다 |
 | `Failed` | 0이 아닌 종료 코드 |
 | `DeliveryTimedOut` | 정해진 시간 안에 노드에 전달되지 못함 |
 | `ExecutionTimedOut` | 실행 시간 초과(실패로 집계) |
