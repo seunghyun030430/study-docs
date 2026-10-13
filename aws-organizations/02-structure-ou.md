@@ -66,7 +66,7 @@ AWS 백서의 원칙 중 실무에 직접 영향을 주는 것들이다. ([Desig
 - management 계정은 **꼭 그 계정에서만 할 수 있는 작업**에만 쓴다(조직 정책 관리, 계정 생성, 결제 등).
 - 서비스 관리는 위임 관리자 계정으로 넘긴다.
 - management 계정에 접근하는 사람과 role을 최소화하고 MFA를 강제한다.
-- 2026-07-10 이후 콘솔에서 만든 조직에는 조직 root에 `organizations:LeaveOrganization`과 `account:CloseAccount`를 거부하는 SCP가 기본으로 붙는다. 계정이 조직을 멋대로 떠나거나 해지되는 것을 막기 위해서다.
+- 2026-07-10 이후 콘솔에서 만든 조직에는 조직 root에 `organizations:LeaveOrganization`과 `account:CloseAccount`를 거부하는 SCP가 기본으로 붙는다. 계정이 조직을 멋대로 떠나거나 해지되는 것을 막기 위해서다. CLI·SDK·CloudFormation으로 만들었거나 그 전에 만든 조직에는 붙지 않으므로 직접 만들어 붙여야 한다.
 
 ## 계정 수명 주기
 
