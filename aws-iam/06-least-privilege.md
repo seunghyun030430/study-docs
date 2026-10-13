@@ -2,6 +2,21 @@
 
 > 최소 권한은 한 번에 설계하지 않고 **넓게 시작 → 사용 기록으로 좁히기 → 배포 전 자동 검증**의 반복으로 만든다. 도구는 IAM Access Analyzer(외부·내부·미사용 접근, 정책 검증, custom policy checks, 정책 생성)와 마지막 사용 정보(last accessed)다. 가장 위험한 안티패턴은 `iam:PassRole`·정책 수정 권한을 통한 **권한 상승**과 조건 없는 와일드카드 principal이다.
 
+## 이 문서에서 새로 나오는 용어
+
+[01-overview.md](./01-overview.md)~[05-workload-identity.md](./05-workload-identity.md)의 용어를 안다고 가정한다.
+
+| 용어 | 뜻 |
+| --- | --- |
+| Analyzer | IAM Access Analyzer에서 분석 범위(계정·조직)를 정해 만드는 분석기 |
+| Finding | Analyzer가 찾아낸 결과 한 건(예: "이 버킷이 외부 계정에 열려 있음") |
+| 신뢰 영역(zone of trust) | Analyzer가 "내부"로 보는 범위. 계정 또는 조직 |
+| Control plane / data plane 액션 | 리소스를 만들고 설정하는 관리 작업(예: 버킷 생성) / 리소스 안의 데이터를 쓰는 작업(예: 파일 읽기) |
+| CloudTrail 데이터 이벤트 | CloudTrail에서 data plane 액션을 기록하는 이벤트. 별도로 켜야 함 |
+| `iam:PassRole` | EC2·Lambda 같은 서비스에 role을 "넘겨줘서" 그 서비스가 role로 일하게 하는 권한 |
+| 권한 상승(privilege escalation) | 주어진 권한을 이용해 원래보다 큰 권한을 얻는 것 |
+| CI | 코드 변경마다 자동으로 빌드·검사하는 파이프라인(예: GitHub Actions) |
+
 ## 최소 권한 절차
 
 AWS 모범 사례(6–12번 항목)를 작업 순서로 정리하면 다음과 같다. ([Best practices](https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html))
