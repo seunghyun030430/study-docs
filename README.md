@@ -6,6 +6,7 @@
 
 | 주제 | 다루는 것 | 조사 기준일 |
 | --- | --- | --- |
+| [aws-systems-manager](./aws-systems-manager/README.md) | AWS Systems Manager: Session Manager, Parameter Store, Run Command·Automation, 아키텍처·이슈 | 2026-10-12 |
 
 ## 규칙
 
