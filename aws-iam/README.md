@@ -35,7 +35,7 @@ AWS IAM을 실무 관점에서 정리한 문서 모음. 중점은 **정책 평�
 | [05-workload-identity.md](./05-workload-identity.md) | EC2 instance profile·IMDSv2, Lambda, ECS task/execution role, EKS Pod Identity vs IRSA, GitHub Actions OIDC, Roles Anywhere, 액세스 키 교체 |
 | [06-least-privilege.md](./06-least-privilege.md) | 최소 권한 절차, IAM Access Analyzer 기능·요금, custom policy checks, last accessed, 권한 상승 안티패턴, boundary 위임 패턴 |
 
-다음 주제: AWS Organizations(SCP·RCP 설계, IAM Identity Center) — `aws-organizations`(예정).
+다음 주제: [aws-organizations](../aws-organizations/README.md) — OU 설계, SCP·RCP, IAM Identity Center.
 
 ## 출처 (1차)
 
