@@ -169,6 +169,7 @@ GuardDuty(위협 탐지), Security Hub(보안 현황), Config(설정 기록), Cl
 | IAM Identity Center / SSO | AWS의 SSO 서비스 / 한 번 로그인으로 여러 시스템 사용 | 7단계 |
 | Permission set | Identity Center에서 계정에 할당하는 권한 묶음 템플릿 | 7단계 |
 | OrganizationAccountAccessRole | 조직에서 만든 계정에 자동 생성되는 관리용 role | 8단계 |
+| Control | Control Tower가 거는 통제 규칙(SCP·Config 규칙 등) | 9단계 |
 | AWS Control Tower / landing zone | 권장 멀티 계정 환경을 자동 구성하는 서비스 / 그렇게 만든 환경 | 9단계 |
 
 ## 출처
