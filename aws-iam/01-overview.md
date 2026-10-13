@@ -157,7 +157,7 @@ IAM은 내부적으로 이름과 별도로 **고유 ID**도 붙인다. 접두사
 - 개인 메일 대신 그룹 메일 주소를 쓰고, 계정 복구 수단에 접근할 수 있는 사람을 제한한다.
 - root 로그인과 사용을 모니터링한다.
 
-계정을 여러 개 묶어 관리하는 **AWS Organizations**를 쓰면, 멤버 계정의 root 자격증명을 아예 없애고 필요할 때만 중앙에서 root 작업을 하는 기능도 있다. Organizations는 다음 주제(`aws-organizations`)에서 다룬다.
+계정을 여러 개 묶어 관리하는 **AWS Organizations**를 쓰면, 멤버 계정의 root 자격증명을 아예 없애고 필요할 때만 중앙에서 root 작업을 하는 기능도 있다. 자세한 내용은 [aws-organizations/05-other-policies.md](../aws-organizations/05-other-policies.md#root-자격증명-중앙-관리)에서 다룬다.
 
 ## 9단계: 사람과 프로그램은 어떻게 접근해야 하나
 
@@ -168,7 +168,7 @@ IAM은 내부적으로 이름과 별도로 **고유 ID**도 붙인다. 접두사
 - **IdP**(Identity Provider)는 회사가 이미 쓰는 로그인 시스템이다(Okta, Microsoft Entra ID, Google Workspace 등).
 - **페더레이션(federation)**은 IdP에서 로그인한 사용자를 AWS가 믿고 받아들이는 방식이다. 사용자는 IdP로 로그인하고, AWS는 role의 임시 자격증명을 내준다. AWS 쪽에 사람마다 IAM user를 만들 필요가 없다.
 - IdP와 AWS가 신원 정보를 주고받는 표준 규격으로 **SAML**과 **OIDC**(OpenID Connect)가 쓰인다.
-- **IAM Identity Center**는 AWS가 제공하는 SSO(한 번 로그인으로 여러 계정 접근) 서비스다. 사람의 페더레이션 접근을 설정할 때 AWS가 권장하는 출발점이다(자세한 내용은 `aws-organizations`에서 다룬다).
+- **IAM Identity Center**는 AWS가 제공하는 SSO(한 번 로그인으로 여러 계정 접근) 서비스다. 사람의 페더레이션 접근을 설정할 때 AWS가 권장하는 출발점이다(자세한 내용은 [aws-organizations/04-identity-center.md](../aws-organizations/04-identity-center.md)에서 다룬다).
 
 > "Require human users to use federation with an identity provider to access AWS using temporary credentials" — [Best practices](https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html)
 
