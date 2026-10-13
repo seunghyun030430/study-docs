@@ -7,6 +7,7 @@
 | 주제 | 다루는 것 | 조사 기준일 |
 | --- | --- | --- |
 | [aws-systems-manager](./aws-systems-manager/README.md) | AWS Systems Manager: Session Manager, Parameter Store, Run Command·Automation, 아키텍처·이슈 | 2026-10-12 |
+| [aws-iam](./aws-iam/README.md) | AWS IAM: 정책 평가 로직, Role·STS·교차 계정, 워크로드 자격증명, 최소 권한·Access Analyzer | 2026-10-13 |
 | [istio](./istio/README.md) | Istio 서비스 메시: 아키텍처, Sidecar vs Ambient, 사용법(kind 실습), 이슈, 내부 동작 | 2026-10-08 |
 
 ## 규칙
