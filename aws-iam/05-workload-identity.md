@@ -2,6 +2,24 @@
 
 > 워크로드에는 **장기 액세스 키를 주지 않는다.** AWS 안에서는 컴퓨팅 서비스가 role을 대신 assume해 임시 자격증명을 자동으로 공급하고(EC2 instance profile, Lambda/ECS role, EKS Pod Identity), AWS 밖에서는 **OIDC 토큰**(GitHub Actions, IRSA)이나 **X.509 인증서**(IAM Roles Anywhere)를 STS 임시 자격증명으로 바꾼다.
 
+## 이 문서에서 새로 나오는 용어
+
+[01-overview.md](./01-overview.md) 9단계(사람과 프로그램의 접근)와 [04-roles-sts.md](./04-roles-sts.md)의 용어를 안다고 가정한다.
+
+| 용어 | 뜻 |
+| --- | --- |
+| IMDS | EC2 인스턴스 안에서만 접근되는 메타데이터 서비스(주소 `169.254.169.254`). role의 임시 자격증명도 여기서 받음 |
+| IMDSv2 | 토큰을 먼저 받아야 조회할 수 있게 강화한 IMDS |
+| SSRF | 서버를 속여 공격자가 원하는 내부 주소로 요청을 보내게 하는 공격. IMDS 자격증명 탈취에 악용됨 |
+| Hop limit | 패킷이 거칠 수 있는 네트워크 단계 수 |
+| ECS task | ECS에서 함께 실행되는 컨테이너 묶음 |
+| Pod / service account / namespace | Kubernetes의 실행 단위 / Pod에 부여하는 신원 / 리소스를 나누는 구역 |
+| DaemonSet | Kubernetes에서 모든 노드에 하나씩 실행되는 Pod |
+| OIDC provider | IAM에 등록한 "이 토큰 발급자를 믿는다"는 설정 |
+| `sub` / `aud` | OIDC 토큰 안의 값. `sub`는 토큰 주인(예: 어느 저장소·브랜치), `aud`는 토큰을 받을 대상 |
+| X.509 인증서 / CA | 신원을 증명하는 디지털 인증서 / 인증서를 발급하는 기관 |
+| CRL / OCSP | 폐기된 인증서 목록 / 인증서 폐기 여부를 실시간으로 묻는 방식 |
+
 ## 한눈에 보기
 
 | 실행 환경 | 방식 | trust policy의 Principal | STS 호출 |
