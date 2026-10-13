@@ -6,7 +6,7 @@
 
 - 주제: AWS IAM을 실무 관점에서 깊게 정리
 - 중점: 정책 평가 로직 / Role·STS·교차 계정 / 워크로드 자격증명 / 권한 점검·최소 권한
-- 범위 밖: AWS Organizations·IAM Identity Center 상세(→ 다음 주제 `aws-organizations`). SCP·RCP는 정책 평가 로직 안에서만 다룬다.
+- 범위 밖: AWS Organizations·IAM Identity Center 상세(→ [`aws-organizations`](../aws-organizations/README.md)). SCP·RCP는 정책 평가 로직 안에서만 다룬다.
 - 예제 스택: 문서 안의 JSON 정책 + AWS CLI(`aws iam`, `aws sts`, `aws accessanalyzer`) 코드블록. 별도 `examples/` 없음.
 
 ## 주제 전용 규칙
