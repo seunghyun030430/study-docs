@@ -2,6 +2,26 @@
 
 > 권한을 **주는** 정책은 identity-based, resource-based(+ACL) 두 종류뿐이다. 나머지(permissions boundary, SCP, RCP, session policy, VPC endpoint policy)는 **상한선만 정한다**. 문법에서 가장 자주 틀리는 곳은 `Condition`이다. 여러 키는 AND, 한 키의 여러 값은 OR이고, `ForAllValues`는 키가 없으면 **참**이 된다.
 
+## 이 문서에서 새로 나오는 용어
+
+[01-overview.md](./01-overview.md)의 용어(정책, identity-based, resource-based, principal 등)를 안다고 가정한다.
+
+| 용어 | 뜻 |
+| --- | --- |
+| Inline policy | 특정 user·role 하나에 직접 넣는 정책. 다른 곳에 재사용할 수 없음 |
+| Permissions boundary | user·role 하나에 거는 **권한 상한선**. 이것만으로는 권한이 생기지 않음 |
+| SCP / RCP | AWS Organizations(여러 계정 묶음)에서 계정 단위로 거는 상한선. SCP는 계정 안의 user·role, RCP는 계정 안의 리소스가 대상 |
+| Session policy | role을 맡을 때 그 세션에만 추가로 거는 상한선 |
+| ACL | 버킷 등에 붙는 옛 방식의 접근 목록(JSON 정책이 아님) |
+| VPC / VPC endpoint | VPC는 AWS 안의 내 사설 네트워크. VPC endpoint는 인터넷을 거치지 않고 VPC에서 AWS 서비스로 가는 전용 통로 |
+| AWS RAM | 리소스를 다른 계정과 공유하는 서비스(Resource Access Manager) |
+| KMS / key policy | KMS는 암호화 키 관리 서비스. key policy는 키마다 붙는 resource-based policy |
+| CIDR | `10.0.0.0/16`처럼 IP 주소 범위를 적는 표기 |
+| 태그(tag) | 리소스·신원에 붙이는 `key=value` 꼬리표(예: `team=data`) |
+| ABAC | 태그를 비교해 허용 여부를 정하는 방식(이 문서 끝에서 설명) |
+| Service Authorization Reference | 서비스별 액션·리소스 타입·조건 키를 정리한 AWS 공식 목록 |
+| FAS(Forward Access Sessions) | AWS 서비스가 사용자 대신 다른 서비스를 호출하는 것(예: CloudFormation이 EC2 생성) |
+
 ## 정책 종류
 
 AWS는 현재 9가지 정책 유형을 안내한다. ([Policies and permissions](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html))
