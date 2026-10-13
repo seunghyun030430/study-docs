@@ -99,7 +99,7 @@ ALLOW
 
 ## SCP·RCP의 적용 범위
 
-이 문서에서는 평가 로직에 필요한 내용만 다룬다. Organizations 설계는 다음 주제(`aws-organizations`)에서 다룬다.
+이 문서에서는 평가 로직에 필요한 내용만 다룬다. SCP·RCP 설계와 예시는 [aws-organizations/03-scp-rcp.md](../aws-organizations/03-scp-rcp.md)에서 다룬다.
 
 | 항목 | SCP | RCP |
 | --- | --- | --- |
