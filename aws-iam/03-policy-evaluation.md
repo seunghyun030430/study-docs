@@ -2,6 +2,20 @@
 
 > 기본값은 **암묵적 거부(implicit deny)**이고, 어디서든 **명시적 Deny가 하나라도 있으면 끝**이다. 그다음 RCP → SCP → resource-based → identity-based → permissions boundary → session policy 순으로 확인한다. 같은 계정에서는 identity-based와 resource-based가 **합집합**이고, boundary·SCP·RCP·session policy는 **교집합(상한선)**으로 작동한다. 교차 계정은 **양쪽 계정이 모두 Allow**해야 한다.
 
+## 이 문서에서 새로 나오는 용어
+
+[01-overview.md](./01-overview.md)와 [02-policies.md](./02-policies.md)의 용어를 안다고 가정한다.
+
+| 용어 | 뜻 |
+| --- | --- |
+| Management 계정 / member 계정 | AWS Organizations에서 조직을 만든 관리 계정 / 조직에 속한 나머지 계정 |
+| OU(Organizational Unit) | Organizations 안에서 계정을 묶는 폴더 |
+| Trust policy | role에 붙어 "누가 이 role을 맡을 수 있는지"를 정하는 resource-based policy |
+| Service-linked role | AWS 서비스가 자기 일을 하려고 내 계정에 만들어 두는 전용 role. 사용자가 권한을 마음대로 바꿀 수 없음 |
+| Session principal | role을 맡은 세션처럼 임시 자격증명으로 요청하는 principal |
+| Trusting / trusted 계정 | 교차 계정에서 리소스를 가진 쪽 / 접근하려는 쪽 |
+| 합집합 / 교집합 | 둘 중 하나만 허용해도 됨 / 둘 다 허용해야 함 |
+
 ## 개요
 
 AWS가 요청을 처리하는 단계는 세 가지다. ([Policy evaluation logic](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_evaluation-logic.html))
