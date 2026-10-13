@@ -2,6 +2,26 @@
 
 > Role은 **"누가 맡을 수 있나"(trust policy) + "맡으면 무엇을 할 수 있나"(permissions policy)**의 묶음이고, STS `AssumeRole`로 **임시 자격증명**(기본 1시간, 최대 12시간)을 받아 쓴다. 교차 계정 접근의 표준 방법이며, 서드파티에 role을 열어 줄 때는 **external ID**로 confused deputy를 막는다.
 
+## 이 문서에서 새로 나오는 용어
+
+[01-overview.md](./01-overview.md)~[03-policy-evaluation.md](./03-policy-evaluation.md)의 용어를 안다고 가정한다.
+
+| 용어 | 뜻 |
+| --- | --- |
+| Permissions policy | role을 맡았을 때 할 수 있는 일을 정한 identity-based policy |
+| Role chaining | role을 맡은 세션으로 또 다른 role을 맡는 것 |
+| 교차 계정 접근 | 한 계정의 principal이 다른 계정의 리소스에 접근하는 것 |
+| 서드파티 | 내 계정에 접근하는 외부 회사·SaaS(예: 모니터링 서비스) |
+| Service principal | `cloudtrail.amazonaws.com`처럼 AWS 서비스를 가리키는 principal |
+| Confused deputy | 권한이 큰 대리인(서비스·SaaS)이 속아서 엉뚱한 사람 대신 일을 하는 문제(본문에서 설명) |
+| External ID | 서드파티가 고객마다 발급하는 식별 값. trust policy 조건에 씀 |
+| Session tag / source identity | 세션에 붙이는 태그 / 세션을 시작한 원래 사람을 기록하는 값 |
+| CloudTrail | AWS API 호출 기록을 남기는 서비스 |
+| JWT | OIDC 등에서 쓰는 서명된 토큰 형식 |
+| 리전 엔드포인트 / 글로벌 엔드포인트 | `sts.ap-northeast-2.amazonaws.com`처럼 리전별 주소 / `sts.amazonaws.com` 하나의 주소 |
+| Opt-in 리전 | 계정에서 직접 활성화해야 쓸 수 있는 리전 |
+| CLI 프로필 | `~/.aws/config`에 이름을 붙여 저장한 자격증명·role 설정 묶음 |
+
 ## 개요 / 정의
 
 > "When you create a role, you create two policies: a role trust policy that specifies who can assume the role, and a permissions policy that specifies what can be done with the role." — [AssumeRole](https://docs.aws.amazon.com/STS/latest/APIReference/API_AssumeRole.html)
