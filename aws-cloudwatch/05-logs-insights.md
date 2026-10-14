@@ -69,7 +69,8 @@ fields @timestamp, @message
 
 | 함수 | 뜻 |
 | --- | --- |
-| `count(*)`, `count_distinct(f)` | 개수, 서로 다른 값 개수(근삿값) |
+| `count(*)`, `countDistinct(f)` | 개수, 서로 다른 값 개수(값이 매우 많으면 근삿값) |
+| `values(f)`, `topk(k, f)` | 서로 다른 값 목록, 가장 자주 나온 값 k개 |
 | `avg`, `sum`, `min`, `max` | 평균·합계·최소·최대 |
 | `pct(f, 95)` | 95번째 백분위수 |
 | `earliest(f)`, `latest(f)` | 가장 이른 / 늦은 값 |
