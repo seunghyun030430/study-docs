@@ -175,4 +175,4 @@ terraform apply    # 실행
 - https://opentofu.org/docs/intro/
 
 ---
-*조사 기준일: 2026-10-14. CDK 예시는 공식 문서 코드이고, Terraform 예시는 이 레포에서 작성했으며 `terraform validate`로 검사하지 않았다(확인 필요).*
+*조사 기준일: 2026-10-14. CDK 예시는 공식 문서 코드이고, Terraform 예시는 이 레포에서 작성했고 `terraform validate`(Terraform 1.5.7, AWS provider 6.68.0)로 리소스 부분을 검사해 통과했다. backend 블록은 `-backend=false`로 검사에서 뺐으며, `use_lockfile`은 Terraform 1.11 이상이 필요하다.*
