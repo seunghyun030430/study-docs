@@ -7,6 +7,7 @@
 - 주제: AWS Systems Manager(SSM)를 실무 관점에서 깊게 정리
 - 중점 기능: **Session Manager**, **Parameter Store**, **Run Command / Automation**
 - 공통 기반(SSM Agent, managed node, IAM, 네트워크)은 `01-overview.md`, `02-architecture.md`에서 다룬다.
+- 추가 기능: **Resource Scheduler**(Quick Setup, EC2 자동 켜기·끄기)는 `07-resource-scheduler.md`에서 다룬다. 이 문서는 요약 아래 "이 문서에서 새로 나오는 용어" 표를 둔다.
 
 ## 주제 전용 규칙
 
