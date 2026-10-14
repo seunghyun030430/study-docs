@@ -27,7 +27,7 @@ AWS 사용자 가이드는 도구를 4개 범주로 묶는다. ([Using Systems M
 | | Documents | 모든 도구가 쓰는 작업 정의(SSM Document) |
 | | Maintenance Windows | 정해진 시간대에 작업 예약 실행 |
 | | Change Calendar | 변경 허용/금지 기간 정의 |
-| | Quick Setup | 권장 구성 일괄 적용 |
+| | Quick Setup | 권장 구성 일괄 적용. EC2 자동 켜기·끄기(**Resource Scheduler**) 포함 → [07](./07-resource-scheduler.md) |
 | | Change Manager | 변경 요청·승인 흐름(**2025-11-07부터 신규 고객 가입 중단**) |
 | Application tools | **Parameter Store** | 계층형 설정값·시크릿 저장 |
 | | AppConfig | 애플리케이션 설정·feature flag 배포 |
@@ -96,6 +96,7 @@ managed node가 되려면 세 가지 조건이 필요하다. 자세한 내용은
 | 설정값·DB 비밀번호 저장, 최신 AMI ID 조회 | Parameter Store | [04-parameter-store.md](./04-parameter-store.md) |
 | 태그로 묶인 서버 100대에 스크립트 일괄 실행 | Run Command | [05-run-command-automation.md](./05-run-command-automation.md) |
 | "인스턴스 중지 → 스냅샷 → 재시작" 같은 다단계 작업 자동화 | Automation | [05-run-command-automation.md](./05-run-command-automation.md) |
+| 개발 서버를 업무 시간에만 켜기(EC2 자동 켜기·끄기) | Quick Setup Resource Scheduler | [07-resource-scheduler.md](./07-resource-scheduler.md) |
 | 노드를 주기적으로 원하는 상태로 유지 | State Manager | 이 레포 범위 밖 |
 | 정기 패치 | Patch Manager + Maintenance Windows | 이 레포 범위 밖 |
 
