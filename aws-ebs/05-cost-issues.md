@@ -184,4 +184,4 @@ aws ec2 describe-snapshots --owner-ids self \
 - https://docs.aws.amazon.com/general/latest/gr/ebs-service.html
 
 ---
-*조사 기준일: 2026-10-14. 요금은 AWS 요금 페이지가 쓰는 가격 데이터(2026-10-12 게시) 기준이고, 계산 예시는 그 단가로 이 레포에서 계산했다. `describe-volumes`의 `status` 필터 이름은 CLI 레퍼런스와 직접 대조하지 않았다(확인 필요).*
+*조사 기준일: 2026-10-14. 요금은 AWS 요금 페이지가 쓰는 가격 데이터(2026-10-12 게시) 기준이고, 계산 예시는 그 단가로 이 레포에서 계산했다. `describe-volumes`의 `status` 필터 값(`creating`, `available`, `in-use` 등)은 CLI 레퍼런스와 대조했다.*
