@@ -10,7 +10,7 @@ AWS Systems Manager(SSM)의 개념·구조·사용법·이슈를 실무 관점�
 | Parameter Store | 계층형 설정값·SecureString 저장 | Standard 무료 / Advanced 월 $0.05 + API 1만 건당 $0.05 | Get 계열 기본 **40 TPS**, 자동 로테이션 없음 |
 | Run Command | 태그·리소스 그룹 단위로 노드에 명령 일괄 실행 | EC2 무료 / 하이브리드 호출당 $0.002 | `Success` = 마지막 명령 종료 코드 0일 뿐 |
 | Automation | AWS API + 노드 명령을 엮은 다단계 런북 | step당 $0.002, **free tier 없음** | 기본은 실행자 권한, assume role 권장 |
-| Resource Scheduler | 태그로 고른 EC2를 일정에 맞춰 자동으로 켜고 끔(Quick Setup) | Quick Setup 무료(내부 Automation 등은 별도) | EC2 전용, 수동 조작은 다음 예약 시각까지 유지, 암호화 EBS면 KMS 권한 필요 |
+| Quick Setup | 권장 구성(Host Management, Patch Policy, Resource Scheduler 등)을 계정·조직에 일괄 배포 | 무료(설정한 서비스 요금은 별도) | 만든 리소스를 직접 고치면 drift, management 계정엔 배포 안 됨, Resource Scheduler는 EC2 전용 |
 
 공통 전제: **SSM Agent + IAM(instance profile 또는 DHMC) + 아웃바운드 443(`ssm`, `ssmmessages`)** 가 갖춰져야 managed node가 된다.
 
@@ -30,8 +30,8 @@ AWS Systems Manager(SSM)의 개념·구조·사용법·이슈를 실무 관점�
 | [03-session-manager.md](./03-session-manager.md) | Session Manager — 접속, 포트포워딩, SSH, 세션 설정·로깅, IAM 제한 |
 | [04-parameter-store.md](./04-parameter-store.md) | Parameter Store — 타입·티어, TPS, KMS, 버전·라벨, 공유, Secrets Manager 비교 |
 | [05-run-command-automation.md](./05-run-command-automation.md) | Run Command·Automation — 대상·rate control, 출력·상태, 런북 작성·실행 |
-| [06-issues.md](./06-issues.md) | 이슈 — 노드 미등록 진단, 쓰로틀링·한도, 보안 안티패턴 |
-| [07-resource-scheduler.md](./07-resource-scheduler.md) | Resource Scheduler — 태그 기반 EC2 자동 켜기·끄기, 동작 규칙, 내부 구성, CLI·Terraform, 대안 비교 |
+| [06-quick-setup.md](./06-quick-setup.md) | Quick Setup — 동작 방식(StackSets·association), 온보딩 role, 설정 유형 11개(Host Management, DHMC, Patch Policy 등), Resource Scheduler, 위임 관리자, CLI·Terraform |
+| [07-issues.md](./07-issues.md) | 이슈 — 노드 미등록 진단, 쓰로틀링·한도, 보안 안티패턴 |
 
 ## 출처 (1차)
 
