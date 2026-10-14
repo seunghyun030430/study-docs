@@ -107,9 +107,9 @@ aws logs associate-kms-key --log-group-name /app/payments --kms-key-id <key-arn>
 | 단어 | `ERROR` | `ERROR`가 들어간 줄 |
 | 여러 단어 | `?ERROR ?WARN` | 둘 중 하나라도 |
 | 제외 | `ERROR -HealthCheck` | `ERROR`는 있지만 `HealthCheck`는 없는 줄 |
-| JSON | `{ $.level = "ERROR" }`, `{ $.latency > 500 }` | JSON 로그의 필드 조건. `&&`, `||` 가능 |
+| JSON | `{ $.level = "ERROR" }`, `{ $.latency > 500 }` | JSON 로그의 필드 조건. `&&`, `\|\|` 가능 |
 | 공백 구분 | `[ip, user, ts, request, status_code = 5*, bytes]` | 공백으로 나뉜 필드에 이름을 붙여 조건 |
-| 정규식 | `%timeout|deadline%` | `%…%` 안에 정규식(log group당 5개 제한) |
+| 정규식 | `%timeout\|deadline%` | `%…%` 안에 정규식(log group당 5개 제한) |
 
 ```bash
 aws logs put-metric-filter \
